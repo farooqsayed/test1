@@ -17,12 +17,14 @@ import {
 import { xaxisAdapterTest } from 'common/modules/experiments/tests/commercial-xaxis-adapter';
 import { appnexusUSAdapter } from 'common/modules/experiments/tests/commercial-appnexus-us-adapter';
 import { pangaeaAdapterTest } from 'common/modules/experiments/tests/commercial-pangaea-adapter';
+import { amazonA9Test } from 'common/modules/experiments/tests/amazon-a9';
 
 export const concurrentTests: $ReadOnlyArray<ABTest> = [
     commercialPrebidSafeframe,
     commercialCmpUiIab,
     adblockTest,
     prebidTripleLiftAdapter,
+    amazonA9Test,
     xaxisAdapterTest,
     appnexusUSAdapter,
     pangaeaAdapterTest,
