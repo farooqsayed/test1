@@ -1,166 +1,167 @@
 // @flow
-import { cmpUi as cmpUi_ } from '@guardian/consent-management-platform';
-import { isInVariantSynchronous as isInVariantSynchronous_ } from 'common/modules/experiments/ab';
-import { consentManagementPlatformUi, _ } from './cmp-ui';
+// // @flow
+// import { cmpUi as cmpUi_ } from '@guardian/consent-management-platform';
+// import { isInVariantSynchronous as isInVariantSynchronous_ } from 'common/modules/experiments/ab';
+// import { consentManagementPlatformUi, _ } from './cmp-ui';
 
-const cmpUi: any = cmpUi_;
-const isInVariantSynchronous: any = isInVariantSynchronous_;
+// const cmpUi: any = cmpUi_;
+// const isInVariantSynchronous: any = isInVariantSynchronous_;
 
-jest.mock('@guardian/consent-management-platform', () => ({
-    cmpUi: {
-        canShow: jest.fn(),
-        setupMessageHandlers: jest.fn(),
-    },
-    // $FlowFixMe property requireActual is actually not missing Flow.
-    cmpConfig: jest.requireActual('@guardian/consent-management-platform')
-        .cmpConfig,
-}));
+// jest.mock('@guardian/consent-management-platform', () => ({
+//     cmpUi: {
+//         canShow: jest.fn(),
+//         setupMessageHandlers: jest.fn(),
+//     },
+//     // $FlowFixMe property requireActual is actually not missing Flow.
+//     cmpConfig: jest.requireActual('@guardian/consent-management-platform')
+//         .cmpConfig,
+// }));
 
-jest.mock('common/modules/experiments/ab', () => ({
-    isInVariantSynchronous: jest.fn(),
-}));
+// jest.mock('common/modules/experiments/ab', () => ({
+//     isInVariantSynchronous: jest.fn(),
+// }));
 
-jest.mock('lib/report-error', () => jest.fn());
+// jest.mock('lib/report-error', () => jest.fn());
 
-describe('cmp-ui', () => {
-    afterEach(() => {
-        jest.resetAllMocks();
-    });
+// describe('cmp-ui', () => {
+//     afterEach(() => {
+//         jest.resetAllMocks();
+//     });
 
-    describe('consentManagementPlatformUi', () => {
-        describe('canShow', () => {
-            it('returns true if cmpUi.canShow true and in commercialIabCompliant test', () => {
-                cmpUi.canShow.mockReturnValue(true);
-                isInVariantSynchronous.mockReturnValue(true);
+//     describe('consentManagementPlatformUi', () => {
+//         describe('canShow', () => {
+//             it('returns true if cmpUi.canShow true and in commercialIabCompliant test', () => {
+//                 cmpUi.canShow.mockReturnValue(true);
+//                 isInVariantSynchronous.mockReturnValue(true);
 
-                return consentManagementPlatformUi.canShow().then(show => {
-                    expect(show).toBe(true);
-                });
-            });
+//                 return consentManagementPlatformUi.canShow().then(show => {
+//                     expect(show).toBe(true);
+//                 });
+//             });
 
-            it('returns false if cmpUi.canShow false', () => {
-                cmpUi.canShow.mockReturnValue(false);
-                isInVariantSynchronous.mockReturnValue(true);
+//             it('returns false if cmpUi.canShow false', () => {
+//                 cmpUi.canShow.mockReturnValue(false);
+//                 isInVariantSynchronous.mockReturnValue(true);
 
-                return consentManagementPlatformUi.canShow().then(show => {
-                    expect(show).toBe(false);
-                });
-            });
+//                 return consentManagementPlatformUi.canShow().then(show => {
+//                     expect(show).toBe(false);
+//                 });
+//             });
 
-            it('returns false if not in commercialIabCompliant test', () => {
-                cmpUi.canShow.mockReturnValue(true);
-                isInVariantSynchronous.mockReturnValue(false);
+//             it('returns false if not in commercialIabCompliant test', () => {
+//                 cmpUi.canShow.mockReturnValue(true);
+//                 isInVariantSynchronous.mockReturnValue(false);
 
-                return consentManagementPlatformUi.canShow().then(show => {
-                    expect(show).toBe(false);
-                });
-            });
-        });
+//                 return consentManagementPlatformUi.canShow().then(show => {
+//                     expect(show).toBe(false);
+//                 });
+//             });
+//         });
 
-        describe('show', () => {
-            const overlaySelector = `.${_.OVERLAY_CLASS}`;
-            const iframeSelector = `.${_.IFRAME_CLASS}`;
+//         describe('show', () => {
+//             const overlaySelector = `.${_.OVERLAY_CLASS}`;
+//             const iframeSelector = `.${_.IFRAME_CLASS}`;
 
-            beforeEach(() => {
-                expect(document.querySelectorAll(overlaySelector).length).toBe(
-                    0
-                );
-            });
+//             beforeEach(() => {
+//                 expect(document.querySelectorAll(overlaySelector).length).toBe(
+//                     0
+//                 );
+//             });
 
-            afterEach(() => {
-                _.reset();
-            });
+//             afterEach(() => {
+//                 _.reset();
+//             });
 
-            it('runs prepareUi when called once', () => {
-                consentManagementPlatformUi.show();
+//             it('runs prepareUi when called once', () => {
+//                 consentManagementPlatformUi.show();
 
-                expect(document.querySelectorAll(overlaySelector).length).toBe(
-                    1
-                );
-                expect(document.querySelectorAll(iframeSelector).length).toBe(
-                    1
-                );
-                expect(cmpUi.setupMessageHandlers).toHaveBeenCalledTimes(1);
-            });
+//                 expect(document.querySelectorAll(overlaySelector).length).toBe(
+//                     1
+//                 );
+//                 expect(document.querySelectorAll(iframeSelector).length).toBe(
+//                     1
+//                 );
+//                 expect(cmpUi.setupMessageHandlers).toHaveBeenCalledTimes(1);
+//             });
 
-            it('does not run prepareUi multiple times when called more than once', () => {
-                consentManagementPlatformUi.show();
-                consentManagementPlatformUi.show();
+//             it('does not run prepareUi multiple times when called more than once', () => {
+//                 consentManagementPlatformUi.show();
+//                 consentManagementPlatformUi.show();
 
-                expect(document.querySelectorAll(overlaySelector).length).toBe(
-                    1
-                );
-                expect(document.querySelectorAll(iframeSelector).length).toBe(
-                    1
-                );
-                expect(cmpUi.setupMessageHandlers).toHaveBeenCalledTimes(1);
-            });
+//                 expect(document.querySelectorAll(overlaySelector).length).toBe(
+//                     1
+//                 );
+//                 expect(document.querySelectorAll(iframeSelector).length).toBe(
+//                     1
+//                 );
+//                 expect(cmpUi.setupMessageHandlers).toHaveBeenCalledTimes(1);
+//             });
 
-            it('onReadyCmp adds the ready class to the container', () => {
-                consentManagementPlatformUi.show();
+//             it('onReadyCmp adds the ready class to the container', () => {
+//                 consentManagementPlatformUi.show();
 
-                const container = document.querySelectorAll(overlaySelector)[0];
+//                 const container = document.querySelectorAll(overlaySelector)[0];
 
-                expect(container).toBeTruthy();
+//                 expect(container).toBeTruthy();
 
-                if (container) {
-                    expect(
-                        container.classList.contains(_.CMP_READY_CLASS)
-                    ).toBe(false);
+//                 if (container) {
+//                     expect(
+//                         container.classList.contains(_.CMP_READY_CLASS)
+//                     ).toBe(false);
 
-                    return _.onReadyCmp().then(() => {
-                        expect(
-                            container.classList.contains(_.CMP_READY_CLASS)
-                        ).toBe(true);
-                    });
-                }
-            });
+//                     return _.onReadyCmp().then(() => {
+//                         expect(
+//                             container.classList.contains(_.CMP_READY_CLASS)
+//                         ).toBe(true);
+//                     });
+//                 }
+//             });
 
-            it('onReadyCmp adds the animate class to the container', () => {
-                consentManagementPlatformUi.show();
+//             it('onReadyCmp adds the animate class to the container', () => {
+//                 consentManagementPlatformUi.show();
 
-                const container = document.querySelectorAll(overlaySelector)[0];
+//                 const container = document.querySelectorAll(overlaySelector)[0];
 
-                expect(container).toBeTruthy();
+//                 expect(container).toBeTruthy();
 
-                if (container) {
-                    expect(
-                        container.classList.contains(_.CMP_ANIMATE_CLASS)
-                    ).toBe(false);
+//                 if (container) {
+//                     expect(
+//                         container.classList.contains(_.CMP_ANIMATE_CLASS)
+//                     ).toBe(false);
 
-                    return _.onReadyCmp().then(() => {
-                        expect(
-                            container.classList.contains(_.CMP_ANIMATE_CLASS)
-                        ).toBe(true);
-                    });
-                }
-            });
+//                     return _.onReadyCmp().then(() => {
+//                         expect(
+//                             container.classList.contains(_.CMP_ANIMATE_CLASS)
+//                         ).toBe(true);
+//                     });
+//                 }
+//             });
 
-            it('onCloseCmp removes the ready class from the container and the container from the page', () => {
-                consentManagementPlatformUi.show();
+//             it('onCloseCmp removes the ready class from the container and the container from the page', () => {
+//                 consentManagementPlatformUi.show();
 
-                const container = document.querySelectorAll(overlaySelector)[0];
+//                 const container = document.querySelectorAll(overlaySelector)[0];
 
-                if (container) {
-                    return _.onReadyCmp()
-                        .then(() => {
-                            expect(
-                                container.classList.contains(_.CMP_READY_CLASS)
-                            ).toBe(true);
+//                 if (container) {
+//                     return _.onReadyCmp()
+//                         .then(() => {
+//                             expect(
+//                                 container.classList.contains(_.CMP_READY_CLASS)
+//                             ).toBe(true);
 
-                            expect(container.parentNode).toBeTruthy();
+//                             expect(container.parentNode).toBeTruthy();
 
-                            return _.onCloseCmp();
-                        })
-                        .then(() => {
-                            expect(
-                                container.classList.contains(_.CMP_READY_CLASS)
-                            ).toBe(false);
+//                             return _.onCloseCmp();
+//                         })
+//                         .then(() => {
+//                             expect(
+//                                 container.classList.contains(_.CMP_READY_CLASS)
+//                             ).toBe(false);
 
-                            expect(container.parentNode).toBeFalsy();
-                        });
-                }
-            });
-        });
-    });
-});
+//                             expect(container.parentNode).toBeFalsy();
+//                         });
+//                 }
+//             });
+//         });
+//     });
+// });
