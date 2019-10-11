@@ -1,5 +1,4 @@
 // @flow
-// // @flow
 // import { cmpUi as cmpUi_ } from '@guardian/consent-management-platform';
 // import { isInVariantSynchronous as isInVariantSynchronous_ } from 'common/modules/experiments/ab';
 // import { consentManagementPlatformUi, _ } from './cmp-ui';
