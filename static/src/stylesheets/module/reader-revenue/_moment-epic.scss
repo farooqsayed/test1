@@ -5,3 +5,24 @@
         line-height: 1;
     }
 }
+
+// NOTE: The following is a test to demonstrate how to add a portrait image to the epic using only CSS
+
+[class*='contributions__epic--2019-10-14_moment_climate_pledge'] {
+    > div:first-child > div:first-child > p:last-child {
+        position: relative;
+    }
+
+    > div:first-child > div:first-child > p:last-child:before {
+        content: '';
+        display: inline-block;
+        float: right;
+        width: 300px;
+        height: 250px;
+        background-image: url("https://i.guim.co.uk/img/uploads/2017/10/06/John-Mulholland,-L.png?width=300&quality=85&auto=format&fit=max&s=bc019ed86c5aaac4ee8c62f41365306a");
+    }
+
+    .contributions__buttons {
+        clear: both;
+    }
+}
