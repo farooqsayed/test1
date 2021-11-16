@@ -50,7 +50,7 @@
     "amphtml-validator": "^1.0.21",
     "any-observable": "^0.2.0",
     "autoprefixer": "^7.2.5",
-    "aws-sdk": "^2.188.0",
+    "aws-sdk": "^2.814.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.1",
